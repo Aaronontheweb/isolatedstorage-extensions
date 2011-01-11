@@ -33,6 +33,27 @@ namespace IsolatedStorageExtensions
 
         #endregion
 
+        #region File Age 
+
+#if !WINDOWS_PHONE
+
+        public static DateTimeOffset GetFileAge(string filepath)
+        {
+            using(var storage = IsolatedStorageFile.GetUserStoreForApplication())
+            {
+                return GetFileAge(filepath, storage);
+            }
+        }
+
+        public static DateTimeOffset GetFileAge(string filepath, IsolatedStorageFile storage)
+        {
+            return storage.GetLastWriteTime(filepath);
+        }
+
+#endif
+
+        #endregion
+
         #region Stream methods
 
         public static Stream GetFileStream(string filepath, IsolatedStorageFile storage)
