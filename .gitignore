@@ -1,0 +1,12 @@
+
+*.suo
+[Bb]in
+[Dd]ebug*/
+obj/
+[Rr]elease*/
+*.obj
+Thumbs.db
+*.cache
+_ReSharper*.*/
+TestResults*/
+*.user
