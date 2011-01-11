@@ -9,9 +9,9 @@ namespace IsolatedStorageExtensions
     {
         #region Filenaming Methods
 
-        public static string GetSafeFileName(string filename, string fileextension)
+        public static string GetSafeFileName(string filename)
         {
-            return (System.IO.Path.GetInvalidPathChars().Aggregate(filename, (current, c) => current.Replace(c, '_'))) + string.Format(".{0}", fileextension);
+            return (System.IO.Path.GetInvalidPathChars().Aggregate(filename, (current, c) => current.Replace(c, '_')));
         }
 
         #endregion
