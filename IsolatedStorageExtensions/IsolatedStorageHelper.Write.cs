@@ -25,7 +25,7 @@ namespace IsolatedStorageExtensions
 
         public static void MakeFile(string textdata, string filepath)
         {
-            var data = Encoding.UTF8.GetBytes(filepath);
+            var data = Encoding.UTF8.GetBytes(textdata);
             MakeFile(data, filepath);
         }
 
