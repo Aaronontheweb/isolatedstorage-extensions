@@ -62,6 +62,7 @@
     <Compile Include="IsolatedStorageHelper.cs" />
     <Compile Include="IsolatedStorageHelper.Directory.cs" />
     <Compile Include="IsolatedStorageHelper.Read.Xml.cs" />
+    <Compile Include="IsolatedStorageHelper.Util.cs" />
     <Compile Include="IsolatedStorageHelper.Write.cs" />
     <Compile Include="IsolatedStorageHelper.Read.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
