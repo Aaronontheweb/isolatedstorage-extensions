@@ -24,6 +24,8 @@ namespace IsolatedStorageExtensions.Tests
         public static readonly string XmlFileName = "xml.xml";
         public static readonly string ComplexPathFileName = "path//path2//path3//simple.txt";
         public static readonly string SimilarPathFolders = "path//path//path//path//path//path.txt";
+        public static readonly string ForwardSlashFileName = "path\\path\\simple.txt";
+        public static readonly string LargeFileName = "largefile.txt";
 
         /// <summary>
         /// Can IsolatedStorageHelper create a simple text file?
@@ -31,8 +33,7 @@ namespace IsolatedStorageExtensions.Tests
         [TestMethod]
         public void CanCreateSimpleFile()
         {
-            IsolatedStorageHelper.MakeFile(RandomStringGenerator.RandomString(10), SimpleFileName);
-            Assert.IsTrue(IsolatedStorageHelper.FileExists(SimpleFileName), string.Format("The file {0} should exist!", SimpleFileName));
+            TestCreateFile(SimpleFileName);
         }
 
         /// <summary>
@@ -45,17 +46,16 @@ namespace IsolatedStorageExtensions.Tests
         }
 
         /// <summary>
-        /// Can IsolatedStorageExtensions create a file which has a deep, multi-nested folder path?
+        /// Can IsolatedStorageHelper create a file which has a deep, multi-nested folder path?
         /// </summary>
         [TestMethod]
         public void CanCreateComplexFile()
         {
-            IsolatedStorageHelper.MakeFile(RandomStringGenerator.RandomString(10), ComplexPathFileName);
-            Assert.IsTrue(IsolatedStorageHelper.FileExists(ComplexPathFileName), string.Format("The file {0} should exist!", ComplexPathFileName));
+            TestCreateFile(ComplexPathFileName);
         }
 
         /// <summary>
-        /// Can IsolatedStorageExtensions delete a file which has a deep, multi-nested folder path?
+        /// Can IsolatedStorageHelper delete a file which has a deep, multi-nested folder path?
         /// </summary>
         [TestMethod]
         public void CanDeleteComplexFile()
@@ -65,26 +65,105 @@ namespace IsolatedStorageExtensions.Tests
         }
 
         /// <summary>
-        /// Can IsolatedStorage create a file which contains a massive amount of text?
+        /// Can IsolatedStorageHelper create a file which contains a massive amount of text?
         /// </summary>
         [TestMethod]
         public void CanCreateLargeFile()
         {
-            IsolatedStorageHelper.MakeFile(RandomStringGenerator.RandomString(60000), SimpleFileName);
-            Assert.IsTrue(IsolatedStorageHelper.FileExists(SimpleFileName), string.Format("The file {0} should exist!", SimpleFileName));
+            TestCreateFile(LargeFileName, 600000);
         }
 
-        private static void TestDeleteFile(string filename)
+        /// <summary>
+        /// Can IsolatedStorageHelper delete a file which contains a massive amount of text?
+        /// </summary>
+        [TestMethod]
+        public void CanDeleteLargeFile()
         {
+            TestDeleteFile(LargeFileName, 600000);
+        }
+
+        /// <summary>
+        /// Can IsolatedStorageHelper create a file name where the paths are extremely repetitive?
+        /// </summary>
+        [TestMethod]
+        public void CanCreateFileWithRepetitiveName()
+        {
+            TestCreateFile(SimilarPathFolders);
+        }
+
+        /// <summary>
+        /// Can IsolatedStorageHelper delete a file name where the paths are extremely repetitive?
+        /// </summary>
+        [TestMethod]
+        public void CanDeleteFileWithRepetitiveName()
+        {
+            TestDeleteFile(SimilarPathFolders);
+        }
+
+        /// <summary>
+        /// Can IsolatedStorageHelper create an XML file?
+        /// </summary>
+        [TestMethod]
+        public void CanCreateXmlFile()
+        {
+            IsolatedStorageHelper.MakeFile(RandomStringGenerator.RandomXmlString(1000), XmlFileName);
+            Assert.IsTrue(IsolatedStorageHelper.FileExists(XmlFileName), string.Format("The file {0} should exist!", XmlFileName));
+        }
+
+        /// <summary>
+        /// Can IsolatedStorageHelper delete an XML file?
+        /// </summary>
+        [TestMethod]
+        public void CanDeleteXmlFile()
+        {
+            TestDeleteFile(XmlFileName);
+        }
+
+        [TestMethod]
+        public void CanCreateFileWithFoldersWithForwardSlashes()
+        {
+            
+        }
+        /// <summary>
+        /// Can successfully transform an invalid filename into a valid filename and create the appropriate file.
+        /// </summary>
+        //[TestMethod]
+        //public void CanCreateFileWithSanitizedName()
+        //{
+        //    var invalidFileName = "&$#%^&*$!@"
+        //}
+
+        /// <summary>
+        /// Private helper method for performing common file CREATE operations during unit testing.
+        /// </summary>
+        /// <param name="filename">The filename of the object to create.</param>
+        /// <param name="stringlen">The length of the string file to create (default is 10 characters).</param>
+        private static void TestCreateFile(string filename, int stringlen = 10)
+        {
+            IsolatedStorageHelper.MakeFile(RandomStringGenerator.RandomString(stringlen), filename);
+            Assert.IsTrue(IsolatedStorageHelper.FileExists(filename), string.Format("The file {0} should exist!", filename));
+        }
+
+        /// <summary>
+        /// Private helper method for performing common DELETE operations during unit testing.
+        /// </summary>
+        /// <param name="filename">The filename of the object to delete.</param>
+        /// <param name="stringlen">The length of the string file to check for (default is 10 characters).</param>
+        private static void TestDeleteFile(string filename, int stringlen = 10)
+        {
+            //If the file doesn't yet exist, create it!
             if (!IsolatedStorageHelper.FileExists(filename))
             {
-                IsolatedStorageHelper.MakeFile(RandomStringGenerator.RandomString(10), filename);
+                IsolatedStorageHelper.MakeFile(RandomStringGenerator.RandomString(stringlen), filename);
             }
 
+            //Verify that the file exists
             Assert.IsTrue(IsolatedStorageHelper.FileExists(filename), string.Format("The file {0} should exist!", filename));
 
+            //Delete the file
             IsolatedStorageHelper.DeleteFile(filename);
 
+            //Verify that the file doesn't exist
             Assert.IsFalse(IsolatedStorageHelper.FileExists(filename), string.Format("The file {0} should not exist!", filename));
         }
     }

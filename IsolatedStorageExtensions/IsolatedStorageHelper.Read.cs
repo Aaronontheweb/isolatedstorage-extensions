@@ -32,7 +32,13 @@ namespace IsolatedStorageExtensions
 
         #endregion
 
-        #region File Age 
+        #region File Size methods
+
+
+
+        #endregion
+
+        #region File Age
 
 #if !WINDOWS_PHONE
 

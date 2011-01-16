@@ -37,8 +37,10 @@ and joining us on the discussion board, creating issues, or even better - forkin
 
 Here's the software you're going to need to modify Quick and Dirty Feed Parser:
     1. Visual Studio 2010 and above
-    2. TortoiseHg (for Mercurial source control)
-    3. TortoiseMerge (used by ApprovalTests for executing some of our test cases.)
+    2. Windows Phone 7 SDK
+    3. Silverlight 4 SDK
+    4. Git
+    5. MS Test (for Silverlight unit tests)
 
 If you have any questions about the project, please ask them on our discussion board on CodePlex or feel free to reach out to me at http://www.aaronstannard.com/ !
 

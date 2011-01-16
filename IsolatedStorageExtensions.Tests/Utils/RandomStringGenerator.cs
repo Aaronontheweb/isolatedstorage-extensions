@@ -1,29 +1,53 @@
 ﻿using System;
 using System.Net;
+using System.Text;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Documents;
-using System.Windows.Ink;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Animation;
-using System.Windows.Shapes;
 
 namespace IsolatedStorageExtensions.Tests.Utils
 {
+    /// <summary>
+    /// Generates random strings to use as test data for writing.
+    /// </summary>
     public class RandomStringGenerator
     {
+        /// <summary>
+        /// Returns a random string of the specified size (ASCII characters only)
+        /// </summary>
+        /// <param name="size">The # of characters in the string</param>
+        /// <returns>A random ASCII string with [size] characters</returns>
         public static string RandomString(int size)
         {
             var rand = new Random();
-            var result = string.Empty;
+            //Using a stringbuilder here just in case there are a large number of append operations
+            var sb = new StringBuilder(); 
             for(var i =0; i < size;i++)
             {
                 var nchar = Convert.ToChar(rand.Next(1, 255));
-                result += nchar;
+                sb.Append(nchar);
             }
 
-            return result;
+            return sb.ToString();
+        }
+
+        /// <summary>
+        /// Removes unsafe characters from the 
+        /// </summary>
+        /// <param name="initialstr">An unescaped XML string</param>
+        /// <returns>An escaped XML string</returns>
+        public static string EscapeXmlString(string initialstr)
+        {
+            return initialstr.Replace("&", "&amp;").Replace("<", "&lt;").Replace(">", "&gt;").Replace("\"", "&quot;").Replace("'", "&apos;");
+
+        }
+
+        /// <summary>
+        /// Returns a random XML string
+        /// </summary>
+        /// <param name="size">The size of the XML string in # of characters</param>
+        /// <returns>A valid XML string.</returns>
+        public static string RandomXmlString(int size)
+        {
+            return "<document><item>" + EscapeXmlString(RandomString(size)) + "</item></document>";
         }
     }
 }
