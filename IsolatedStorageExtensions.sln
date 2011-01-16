@@ -5,6 +5,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IsolatedStorageExtensions",
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IsolatedStorageExtensions.Mobile", "IsolatedStorageExtensions.Mobile\IsolatedStorageExtensions.Mobile.csproj", "{DF458C34-F1F7-4827-8440-ED7E671145A8}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IsolatedStorageExtensions.Tests", "IsolatedStorageExtensions.Tests\IsolatedStorageExtensions.Tests.csproj", "{2F8F55C7-37BF-41B1-80BF-79841341CE5D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -19,6 +21,10 @@ Global
 		{DF458C34-F1F7-4827-8440-ED7E671145A8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DF458C34-F1F7-4827-8440-ED7E671145A8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DF458C34-F1F7-4827-8440-ED7E671145A8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2F8F55C7-37BF-41B1-80BF-79841341CE5D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2F8F55C7-37BF-41B1-80BF-79841341CE5D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2F8F55C7-37BF-41B1-80BF-79841341CE5D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2F8F55C7-37BF-41B1-80BF-79841341CE5D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

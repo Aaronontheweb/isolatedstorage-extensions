@@ -18,7 +18,7 @@ namespace IsolatedStorageExtensions
 
         public static void CreateDirectoryTree(string filepath)
         {
-            using (var storage = IsolatedStorageFile.GetUserStoreForApplication())
+            using (var storage = GetStore())
             {
                 CreateDirectoryTree(filepath, storage);
             }

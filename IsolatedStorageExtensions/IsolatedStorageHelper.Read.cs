@@ -20,7 +20,7 @@ namespace IsolatedStorageExtensions
 
         public static bool FileExists(string filepath)
         {
-            using (var storage = IsolatedStorageFile.GetUserStoreForApplication())
+            using (var storage = GetStore())
             {
                 return FileExists(filepath, storage);
             }
@@ -39,7 +39,7 @@ namespace IsolatedStorageExtensions
 
         public static DateTimeOffset GetFileAge(string filepath)
         {
-            using(var storage = IsolatedStorageFile.GetUserStoreForApplication())
+            using(var storage = GetStore())
             {
                 return GetFileAge(filepath, storage);
             }
@@ -71,7 +71,7 @@ namespace IsolatedStorageExtensions
 
         public static Stream GetFileStream(string filepath)
         {
-            using (var storage = IsolatedStorageFile.GetUserStoreForApplication())
+            using (var storage = GetStore())
             {
                 return GetFileStream(filepath, storage);
             }
@@ -83,7 +83,7 @@ namespace IsolatedStorageExtensions
 
         public static string GetFileText(string filepath)
         {
-            using (var storage = IsolatedStorageFile.GetUserStoreForApplication())
+            using (var storage = GetStore())
             {
                 return GetFileText(filepath, storage);
             }

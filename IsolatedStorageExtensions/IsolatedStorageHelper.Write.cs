@@ -17,7 +17,7 @@ namespace IsolatedStorageExtensions
     {
         public static void MakeFile(byte[] data, string filepath)
         {
-            using (var storage = IsolatedStorageFile.GetUserStoreForApplication())
+            using (var storage = GetStore())
             {
                 MakeFile(data, filepath, storage);
             }

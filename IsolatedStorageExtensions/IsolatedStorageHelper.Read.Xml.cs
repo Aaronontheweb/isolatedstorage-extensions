@@ -18,7 +18,7 @@ namespace IsolatedStorageExtensions
     {
         public static T GetFile<T>(string filepath, XmlSerializer serializer)
         {
-            using (var storage = IsolatedStorageFile.GetUserStoreForApplication())
+            using (var storage = GetStore())
             {
                 return GetFile<T>(filepath, serializer, storage);
             }
