@@ -1,20 +1,25 @@
 ﻿using System;
+using System.IO;
 using System.IO.IsolatedStorage;
 using System.Net;
 using System.Text;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Documents;
-using System.Windows.Ink;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Animation;
+using System.Linq;
 using System.Windows.Shapes;
 
 namespace IsolatedStorageExtensions
 {
     public static partial class IsolatedStorageHelper
     {
+        public static void MakeFile(byte[] data, string filepath, IsolatedStorageFile storage)
+        {
+            CreateDirectoryTree(filepath, storage);
+
+            using (var filestream = new IsolatedStorageFileStream(filepath, FileMode.Create, FileAccess.Write, storage))
+            {
+                filestream.Write(data, 0, data.Count());
+            }
+        }
+
         public static void MakeFile(byte[] data, string filepath)
         {
             using (var storage = GetStore())

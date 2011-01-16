@@ -15,7 +15,6 @@ namespace IsolatedStorageExtensions
 {
     public static partial class IsolatedStorageHelper
     {
-
         #region Exists Overloads
 
         public static bool FileExists(string filepath)
@@ -80,6 +79,22 @@ namespace IsolatedStorageExtensions
         #endregion
 
         #region Text methods
+
+        public static string GetFileText(string filepath, IsolatedStorageFile storage)
+        {
+            if (FileExists(filepath, storage))
+            {
+                var stream = GetFileStream(filepath, storage);
+
+                using (var reader = new StreamReader(stream))
+                {
+                    return reader.ReadToEnd();
+                }
+            }
+
+            return string.Empty;
+        }
+
 
         public static string GetFileText(string filepath)
         {

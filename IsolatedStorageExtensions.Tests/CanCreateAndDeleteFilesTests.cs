@@ -15,7 +15,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace IsolatedStorageExtensions.Tests
 {
     /// <summary>
-    /// Test class used for determining if the IsolatedStorageHelper can successfully write and delete simple text files.
+    /// Test class used for determining if the IsolatedStorageHelper can successfully write and delete text files.
     /// </summary>
     [TestClass]
     public class CanCreateAndDeleteFilesTests
@@ -32,7 +32,7 @@ namespace IsolatedStorageExtensions.Tests
         public void CanCreateSimpleFile()
         {
             IsolatedStorageHelper.MakeFile(RandomStringGenerator.RandomString(10), SimpleFileName);
-            Assert.IsTrue(IsolatedStorageHelper.FileExists(SimpleFileName));
+            Assert.IsTrue(IsolatedStorageHelper.FileExists(SimpleFileName), string.Format("The file {0} should exist!", SimpleFileName));
         }
 
         /// <summary>
@@ -41,17 +41,51 @@ namespace IsolatedStorageExtensions.Tests
         [TestMethod]
         public void CanDeleteSimpleFile()
         {
+            TestDeleteFile(SimpleFileName);
+        }
+
+        /// <summary>
+        /// Can IsolatedStorageExtensions create a file which has a deep, multi-nested folder path?
+        /// </summary>
+        [TestMethod]
+        public void CanCreateComplexFile()
+        {
+            IsolatedStorageHelper.MakeFile(RandomStringGenerator.RandomString(10), ComplexPathFileName);
+            Assert.IsTrue(IsolatedStorageHelper.FileExists(ComplexPathFileName), string.Format("The file {0} should exist!", ComplexPathFileName));
+        }
+
+        /// <summary>
+        /// Can IsolatedStorageExtensions delete a file which has a deep, multi-nested folder path?
+        /// </summary>
+        [TestMethod]
+        public void CanDeleteComplexFile()
+        {
             //Create the file if it doesn't exist already
-            if(!IsolatedStorageHelper.FileExists(SimpleFileName))
-            {
-                IsolatedStorageHelper.MakeFile(RandomStringGenerator.RandomString(10), SimpleFileName);
-            }
-            
+            TestDeleteFile(ComplexPathFileName);
+        }
+
+        /// <summary>
+        /// Can IsolatedStorage create a file which contains a massive amount of text?
+        /// </summary>
+        [TestMethod]
+        public void CanCreateLargeFile()
+        {
+            IsolatedStorageHelper.MakeFile(RandomStringGenerator.RandomString(60000), SimpleFileName);
             Assert.IsTrue(IsolatedStorageHelper.FileExists(SimpleFileName), string.Format("The file {0} should exist!", SimpleFileName));
+        }
 
-            IsolatedStorageHelper.DeleteFile(SimpleFileName);
+        private static void TestDeleteFile(string filename)
+        {
+            if (!IsolatedStorageHelper.FileExists(filename))
+            {
+                IsolatedStorageHelper.MakeFile(RandomStringGenerator.RandomString(10), filename);
+            }
 
-            Assert.IsFalse(IsolatedStorageHelper.FileExists(SimpleFileName), string.Format("The file {0} should not exist!", SimpleFileName));
+            Assert.IsTrue(IsolatedStorageHelper.FileExists(filename), string.Format("The file {0} should exist!", filename));
+
+            IsolatedStorageHelper.DeleteFile(filename);
+
+            Assert.IsFalse(IsolatedStorageHelper.FileExists(filename), string.Format("The file {0} should not exist!", filename));
         }
     }
 }
