@@ -41,7 +41,7 @@ namespace IsolatedStorageExtensions
         public static void CreateDirectoryTree(string filepath, IsolatedStorageFile storage)
         {
             //If this filepath is flat and doesn't contain any folders - bail.
-            if (!filepath.Contains(DirectorySeparatorConstant)) return;
+            if (!filepath.Contains(ForwardSlashDirectorySeparatorConstant) || !filepath.Contains(BackSlashDirectorySeparatorConstant)) return;
 
             //Extract the full directory path from the filename
             var directory = GetDirectoryPath(filepath);
@@ -59,11 +59,11 @@ namespace IsolatedStorageExtensions
         public static string GetDirectoryPath(string filepath)
         {
             //If the filepath is actually flat and there are no directories, bail.
-            if (!filepath.Contains(DirectorySeparatorConstant)) return string.Empty;
+            if (!filepath.Contains(ForwardSlashDirectorySeparatorConstant) || !filepath.Contains(BackSlashDirectorySeparatorConstant)) return string.Empty;
 
             /*Find the last instance of the directory sperator constant (//)
               and return everything that came before it.*/
-            var directoryPos = filepath.LastIndexOf(DirectorySeparatorConstant);
+            var directoryPos = filepath.LastIndexOf(ForwardSlashDirectorySeparatorConstant);
             return filepath.Substring(0, directoryPos);
         }
 

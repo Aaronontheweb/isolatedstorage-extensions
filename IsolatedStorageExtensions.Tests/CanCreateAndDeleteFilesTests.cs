@@ -119,19 +119,33 @@ namespace IsolatedStorageExtensions.Tests
             TestDeleteFile(XmlFileName);
         }
 
+        /// <summary>
+        /// Can IsolatedStorageHelper create a file with folders which are expressed as back slashes?
+        /// </summary>
         [TestMethod]
-        public void CanCreateFileWithFoldersWithForwardSlashes()
+        public void CanCreateFileWithFoldersWithBackSlashes()
         {
-            
+            TestCreateFile(ForwardSlashFileName);
+        }
+
+        /// <summary>
+        /// Can IsolatedStorageHelper delete files living in folders with back slashes?
+        /// </summary>
+        [TestMethod]
+        public void CanDeleteFileWithFoldersWithBackSlashes()
+        {
+            TestDeleteFile(ForwardSlashFileName);
         }
         /// <summary>
         /// Can successfully transform an invalid filename into a valid filename and create the appropriate file.
         /// </summary>
-        //[TestMethod]
-        //public void CanCreateFileWithSanitizedName()
-        //{
-        //    var invalidFileName = "&$#%^&*$!@"
-        //}
+        [TestMethod]
+        public void CanCreateFileWithSanitizedName()
+        {
+            var invalidFileName = "><aaa<>.txt";
+            var validFileName = IsolatedStorageHelper.GetSafeFileName(invalidFileName);
+            TestCreateFile(validFileName);
+        }
 
         /// <summary>
         /// Private helper method for performing common file CREATE operations during unit testing.
