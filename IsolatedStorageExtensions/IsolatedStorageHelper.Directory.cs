@@ -23,6 +23,34 @@ namespace IsolatedStorageExtensions
         private const string ForwardSlashDirectorySeparatorConstant = @"/";
         private const string BackSlashDirectorySeparatorConstant = @"\";
 
+        #region Directory exists methods
+
+        /// <summary>
+        /// Verifies whether or not a given directory exists in IsolatedStorage
+        /// </summary>
+        /// <param name="directorypath">The path to a given directory</param>
+        /// <param name="storage">A reference to a valid IsolatedStorageFile instance.</param>
+        /// <returns>True if the directory exists, false otherwise.</returns>
+        public static bool DirectoryExists(string directorypath, IsolatedStorageFile storage)
+        {
+            return storage.DirectoryExists(directorypath);
+        }
+
+        /// <summary>
+        /// Verifies whether or not a given directory exists in IsolatedStorage
+        /// </summary>
+        /// <param name="directorypath">The path to a given directory</param>
+        /// <returns>True if the directory exists, false otherwise.</returns>
+        public static bool DirectoryExists(string directorypath)
+        {
+            using(var storage = GetStore())
+            {
+                return DirectoryExists(directorypath, storage);
+            }
+        }
+
+        #endregion
+
         #region Directory creation methods
 
         /// <summary>
@@ -45,14 +73,63 @@ namespace IsolatedStorageExtensions
         public static void CreateDirectoryTree(string filepath, IsolatedStorageFile storage)
         {
             //If this filepath is flat and doesn't contain any folders - bail.
-             if (!filepath.Contains(ForwardSlashDirectorySeparatorConstant) && !filepath.Contains(BackSlashDirectorySeparatorConstant)) return;
+             if (!HasDirectories(filepath)) return;
 
             //Extract the full directory path from the filename
-            var directory = GetDirectoryPath(filepath);
+            var directory = GetFullDirectoryPath(filepath);
 
             //If the directory doesn't already exist, create it.
             if (!storage.DirectoryExists(directory))
                 storage.CreateDirectory(directory);
+        }
+
+        #endregion
+
+        #region Directory deletion methods
+
+        /// <summary>
+        /// Deletes all of the folders and their contents in a given file-path.
+        /// </summary>
+        /// <param name="filepath">A valid filepath in IsolatedStorage.</param>
+        /// <param name="storage">A reference to a valid IsolateStorageFile object.</param>
+        public static void DeleteDirectoryTree(string filepath, IsolatedStorageFile storage)
+        {
+            //Bail if we don't detect any folders
+            if (!HasDirectories(filepath)) return;
+
+            //Get the root folder from the path
+            var folderPath = GetRootDirectory(filepath);
+
+            //Delete the root directory and have it cascade down
+            storage.DeleteDirectory(folderPath);
+            
+        }
+
+        /// <summary>
+        /// Deletes all of the folders and their contents in a given file-path.
+        /// </summary>
+        /// <param name="filepath">A valid filepath in IsolatedStorage.</param>
+        public static void DeleteDirectoryTree(string filepath)
+        {
+            //Create our own IsolatedStorageFile instance and then pass it to the overloaded method.
+            using(var storage = GetStore())
+            {
+                DeleteDirectoryTree(filepath, storage);
+            }
+        }
+
+        #endregion
+
+        #region Directory parsing methods
+
+        /// <summary>
+        /// Returns true if a given path contains folders
+        /// </summary>
+        /// <param name="filepath">A filepath to test</param>
+        /// <returns>True if folders are detected, false otherwise.</returns>
+        public static bool HasDirectories(string filepath)
+        {
+            return filepath.Contains(ForwardSlashDirectorySeparatorConstant) || filepath.Contains(BackSlashDirectorySeparatorConstant);
         }
 
         /// <summary>
@@ -60,7 +137,7 @@ namespace IsolatedStorageExtensions
         /// </summary>
         /// <param name="filepath">A string containing a filepath which may or may not contain any number of directories.</param>
         /// <returns>The string of the path which contains just the folder tree and not the filename.</returns>
-        public static string GetDirectoryPath(string filepath)
+        public static string GetFullDirectoryPath(string filepath)
         {
             var directoryPos = 0;
             //If the filepath is actually flat and there are no directories, bail.
@@ -71,15 +148,43 @@ namespace IsolatedStorageExtensions
                 directoryPos = filepath.LastIndexOf(ForwardSlashDirectorySeparatorConstant);
                 return filepath.Substring(0, directoryPos);
             }
-            
-            if(filepath.Contains(BackSlashDirectorySeparatorConstant))
+
+            if (filepath.Contains(BackSlashDirectorySeparatorConstant))
             {
                 /*Find the last instance of the directory sperator constant (\\)
                    and return everything that came before it.*/
                 directoryPos = filepath.LastIndexOf(BackSlashDirectorySeparatorConstant);
                 return filepath.Substring(0, directoryPos);
             }
-            
+
+            return string.Empty;
+        }
+
+        /// <summary>
+        /// Extracts the root folder from a path and returns its name
+        /// </summary>
+        /// <param name="filepath">A filepath to be evaluated</param>
+        /// <returns>The root folder if one exists, an empty string otherwise</returns>
+        public static string GetRootDirectory(string filepath)
+        {
+            var directoryPos = 0;
+            //If the filepath is actually flat and there are no directories, bail.
+            if (filepath.Contains(ForwardSlashDirectorySeparatorConstant))
+            {
+                /*Find the last instance of the directory sperator constant (//)
+                   and return everything that came before it.*/
+                directoryPos = filepath.IndexOf(ForwardSlashDirectorySeparatorConstant);
+                return filepath.Substring(0, directoryPos);
+            }
+
+            if (filepath.Contains(BackSlashDirectorySeparatorConstant))
+            {
+                /*Find the last instance of the directory sperator constant (\\)
+                   and return everything that came before it.*/
+                directoryPos = filepath.IndexOf(BackSlashDirectorySeparatorConstant);
+                return filepath.Substring(0, directoryPos);
+            }
+
             return string.Empty;
         }
 

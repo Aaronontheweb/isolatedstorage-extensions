@@ -16,15 +16,15 @@ namespace IsolatedStorageExtensions
 {
     public static partial class IsolatedStorageHelper
     {
-        public static T GetFile<T>(string filepath, XmlSerializer serializer)
+        public static T ReadFile<T>(string filepath, XmlSerializer serializer)
         {
             using (var storage = GetStore())
             {
-                return GetFile<T>(filepath, serializer, storage);
+                return ReadFile<T>(filepath, serializer, storage);
             }
         }
 
-        public static T GetFile<T>(string filepath, XmlSerializer serializer, IsolatedStorageFile storage)
+        public static T ReadFile<T>(string filepath, XmlSerializer serializer, IsolatedStorageFile storage)
         {
             if (FileExists(filepath, storage))
             {

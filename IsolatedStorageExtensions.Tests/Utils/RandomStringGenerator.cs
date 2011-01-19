@@ -22,7 +22,7 @@ namespace IsolatedStorageExtensions.Tests.Utils
             var sb = new StringBuilder(); 
             for(var i =0; i < size;i++)
             {
-                var nchar = Convert.ToChar(rand.Next(1, 255));
+                var nchar = Convert.ToChar(Convert.ToInt32(Math.Floor(26 * rand.NextDouble() + 65)));
                 sb.Append(nchar);
             }
 

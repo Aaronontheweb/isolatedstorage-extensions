@@ -18,7 +18,7 @@ namespace IsolatedStorageExtensions.Tests
     /// Test class used for determining if the IsolatedStorageHelper can successfully write and delete text files.
     /// </summary>
     [TestClass]
-    public class CanCreateAndDeleteFilesTests
+    public class CanCreateAndDeleteTests
     {
         public static readonly string SimpleFileName = "simple.txt";
         public static readonly string XmlFileName = "xml.xml";
@@ -147,6 +147,27 @@ namespace IsolatedStorageExtensions.Tests
             TestCreateFile(validFileName);
         }
 
+        [TestMethod]
+        public void CanDetermineIfFoldersExist()
+        {
+            //If we can't detect directories, then we're in bad shape
+            Assert.IsTrue(IsolatedStorageHelper.HasDirectories(ComplexPathFileName));
+
+            if(!IsolatedStorageHelper.FileExists(ComplexPathFileName))
+            {
+                IsolatedStorageHelper.MakeFile(RandomStringGenerator.RandomString(10), ComplexPathFileName);
+            }
+
+            var rootDir = IsolatedStorageHelper.GetRootDirectory(ComplexPathFileName);
+            var fullTree = IsolatedStorageHelper.GetFullDirectoryPath(ComplexPathFileName);
+
+            Assert.IsTrue(rootDir.Length > 0);
+            Assert.IsTrue(fullTree.Length > 0);
+
+            //This path should have more than one folder, so verify that the root and the full path are different
+            Assert.AreNotEqual(fullTree, rootDir);
+        }
+
         /// <summary>
         /// Private helper method for performing common file CREATE operations during unit testing.
         /// </summary>
@@ -179,6 +200,18 @@ namespace IsolatedStorageExtensions.Tests
 
             //Verify that the file doesn't exist
             Assert.IsFalse(IsolatedStorageHelper.FileExists(filename), string.Format("The file {0} should not exist!", filename));
+        }
+
+        [ClassCleanup]
+        public void CleanUp()
+        {
+            //Delete the files we may have created during the course of testing
+            IsolatedStorageHelper.DeleteFile(SimpleFileName);
+            IsolatedStorageHelper.DeleteFile(SimilarPathFolders);
+            IsolatedStorageHelper.DeleteFile(ComplexPathFileName);
+            IsolatedStorageHelper.DeleteFile(BackSlashFileName);
+            IsolatedStorageHelper.DeleteFile(LargeFileName);
+            IsolatedStorageHelper.DeleteFile(XmlFileName);
         }
     }
 }

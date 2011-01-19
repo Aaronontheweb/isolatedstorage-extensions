@@ -19,7 +19,7 @@ namespace IsolatedStorageExtensions.Tests
     /// Testing class to determine if IsolatedStorageHelper can read and append files
     /// </summary>
     [TestClass]
-    public class CanReadAndAppendFiles
+    public class CanReadFiles
     {
         private const string SimpleTextFileName = "test1.txt";
         private static string SimpleTextContent;
