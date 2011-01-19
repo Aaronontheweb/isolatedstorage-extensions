@@ -52,6 +52,9 @@
     <Compile Include="..\IsolatedStorageExtensions\IsolatedStorageHelper.cs">
       <Link>IsolatedStorageHelper.cs</Link>
     </Compile>
+    <Compile Include="..\IsolatedStorageExtensions\IsolatedStorageHelper.Delete.cs">
+      <Link>IsolatedStorageHelper.Delete.cs</Link>
+    </Compile>
     <Compile Include="..\IsolatedStorageExtensions\IsolatedStorageHelper.Directory.cs">
       <Link>IsolatedStorageHelper.Directory.cs</Link>
     </Compile>
@@ -66,6 +69,9 @@
     </Compile>
     <Compile Include="..\IsolatedStorageExtensions\IsolatedStorageHelper.Write.cs">
       <Link>IsolatedStorageHelper.Write.cs</Link>
+    </Compile>
+    <Compile Include="..\IsolatedStorageExtensions\IsolatedStorageHelper.Write.Xml.cs">
+      <Link>IsolatedStorageHelper.Write.Xml.cs</Link>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

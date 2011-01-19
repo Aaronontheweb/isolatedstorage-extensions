@@ -28,7 +28,7 @@ namespace IsolatedStorageExtensions
         {
             if (FileExists(filepath, storage))
             {
-                var stream = GetFileStream(filepath, storage);
+                var stream = ReadFileStream(filepath, storage);
                 using (var reader = XmlReader.Create(stream))
                 {
                     return (T)serializer.Deserialize(reader);

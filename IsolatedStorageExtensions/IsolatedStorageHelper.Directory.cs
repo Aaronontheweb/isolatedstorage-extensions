@@ -19,6 +19,10 @@ namespace IsolatedStorageExtensions
      */
     public static partial class IsolatedStorageHelper
     {
+        //A constant used for extracting directories from filepaths.
+        private const string ForwardSlashDirectorySeparatorConstant = "//";
+        private const string BackSlashDirectorySeparatorConstant = "\\";
+
         #region Directory creation methods
 
         /// <summary>
@@ -41,7 +45,7 @@ namespace IsolatedStorageExtensions
         public static void CreateDirectoryTree(string filepath, IsolatedStorageFile storage)
         {
             //If this filepath is flat and doesn't contain any folders - bail.
-            if (!filepath.Contains(ForwardSlashDirectorySeparatorConstant) || !filepath.Contains(BackSlashDirectorySeparatorConstant)) return;
+            if (filepath.Contains(ForwardSlashDirectorySeparatorConstant) || filepath.Contains(BackSlashDirectorySeparatorConstant)) return;
 
             //Extract the full directory path from the filename
             var directory = GetDirectoryPath(filepath);

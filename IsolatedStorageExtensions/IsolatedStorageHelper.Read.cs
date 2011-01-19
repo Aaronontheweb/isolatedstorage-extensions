@@ -1,15 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.IO.IsolatedStorage;
-using System.Net;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Documents;
-using System.Windows.Ink;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Animation;
-using System.Windows.Shapes;
+using System.Text;
 
 namespace IsolatedStorageExtensions
 {
@@ -82,24 +74,32 @@ namespace IsolatedStorageExtensions
 
         #region Stream methods
 
-        public static Stream GetFileStream(string filepath, IsolatedStorageFile storage)
+        /// <summary>
+        /// Begins reading the file from IsolatedStorage as a stream.
+        /// </summary>
+        /// <param name="filepath">The path to the file.</param>
+        /// <param name="storage">A valid IsolatedStorageFile instance.</param>
+        /// <returns>A valid Stream object which can be used to access the contents of the file.</returns>
+        public static Stream ReadFileStream(string filepath, IsolatedStorageFile storage)
         {
             if (FileExists(filepath, storage))
             {
-                using (var stream = new IsolatedStorageFileStream(filepath, FileMode.Open, FileAccess.Read, storage))
-                {
-                    return stream;
-                }
+                return new IsolatedStorageFileStream(filepath, FileMode.Open, FileAccess.Read, storage);
             }
 
             return null;
         }
 
-        public static Stream GetFileStream(string filepath)
+        /// <summary>
+        /// Begins reading the file from IsolatedStorage as a stream.
+        /// </summary>
+        /// <param name="filepath">The path to the file.</param>
+        /// <returns>A valid Stream object which can be used to access the contents of the file.</returns>
+        public static Stream ReadFileStream(string filepath)
         {
             using (var storage = GetStore())
             {
-                return GetFileStream(filepath, storage);
+                return ReadFileStream(filepath, storage);
             }
         }
 
@@ -107,27 +107,37 @@ namespace IsolatedStorageExtensions
 
         #region Text methods
 
-        public static string GetFileText(string filepath, IsolatedStorageFile storage)
+        /// <summary>
+        /// Returns the contents of a file as text.
+        /// </summary>
+        /// <param name="filepath">The path to the file.</param>
+        /// <param name="storage">A reference to a valid IsolatedStorageFile instance.</param>
+        /// <returns>A string containing the contents of the file.</returns>
+        public static string ReadFileText(string filepath, IsolatedStorageFile storage)
         {
             if (FileExists(filepath, storage))
             {
-                var stream = GetFileStream(filepath, storage);
-
-                using (var reader = new StreamReader(stream))
+                var stream = ReadFileStream(filepath, storage);
+                using (var reader = new StreamReader(stream, Encoding.UTF8))
                 {
                     return reader.ReadToEnd();
                 }
             }
 
+            //If the file doesn't exist, return an empty string.
             return string.Empty;
         }
 
-
-        public static string GetFileText(string filepath)
+        /// <summary>
+        /// Returns the contents of a file as text.
+        /// </summary>
+        /// <param name="filepath">The path to the file.</param>
+        /// <returns>A string containing the contents of the file.</returns>
+        public static string ReadFileText(string filepath)
         {
             using (var storage = GetStore())
             {
-                return GetFileText(filepath, storage);
+                return ReadFileText(filepath, storage);
             }
         }
 
