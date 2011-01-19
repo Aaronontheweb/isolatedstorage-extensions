@@ -24,7 +24,7 @@ namespace IsolatedStorageExtensions.Tests
         public static readonly string XmlFileName = "xml.xml";
         public static readonly string ComplexPathFileName = "path//path2//path3//simple.txt";
         public static readonly string SimilarPathFolders = "path//path//path//path//path//path.txt";
-        public static readonly string ForwardSlashFileName = "path\\path\\simple.txt";
+        public static readonly string BackSlashFileName = "path\\path\\simple.txt";
         public static readonly string LargeFileName = "largefile.txt";
 
         /// <summary>
@@ -125,7 +125,7 @@ namespace IsolatedStorageExtensions.Tests
         [TestMethod]
         public void CanCreateFileWithFoldersWithBackSlashes()
         {
-            TestCreateFile(ForwardSlashFileName);
+            TestCreateFile(BackSlashFileName);
         }
 
         /// <summary>
@@ -134,7 +134,7 @@ namespace IsolatedStorageExtensions.Tests
         [TestMethod]
         public void CanDeleteFileWithFoldersWithBackSlashes()
         {
-            TestDeleteFile(ForwardSlashFileName);
+            TestDeleteFile(BackSlashFileName);
         }
         /// <summary>
         /// Can successfully transform an invalid filename into a valid filename and create the appropriate file.

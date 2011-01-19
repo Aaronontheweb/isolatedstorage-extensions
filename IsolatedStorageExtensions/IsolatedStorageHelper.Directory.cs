@@ -20,8 +20,8 @@ namespace IsolatedStorageExtensions
     public static partial class IsolatedStorageHelper
     {
         //A constant used for extracting directories from filepaths.
-        private const string ForwardSlashDirectorySeparatorConstant = "//";
-        private const string BackSlashDirectorySeparatorConstant = "\\";
+        private const string ForwardSlashDirectorySeparatorConstant = @"/";
+        private const string BackSlashDirectorySeparatorConstant = @"\";
 
         #region Directory creation methods
 
@@ -45,7 +45,7 @@ namespace IsolatedStorageExtensions
         public static void CreateDirectoryTree(string filepath, IsolatedStorageFile storage)
         {
             //If this filepath is flat and doesn't contain any folders - bail.
-            if (filepath.Contains(ForwardSlashDirectorySeparatorConstant) || filepath.Contains(BackSlashDirectorySeparatorConstant)) return;
+             if (!filepath.Contains(ForwardSlashDirectorySeparatorConstant) && !filepath.Contains(BackSlashDirectorySeparatorConstant)) return;
 
             //Extract the full directory path from the filename
             var directory = GetDirectoryPath(filepath);
@@ -62,13 +62,25 @@ namespace IsolatedStorageExtensions
         /// <returns>The string of the path which contains just the folder tree and not the filename.</returns>
         public static string GetDirectoryPath(string filepath)
         {
+            var directoryPos = 0;
             //If the filepath is actually flat and there are no directories, bail.
-            if (!filepath.Contains(ForwardSlashDirectorySeparatorConstant) || !filepath.Contains(BackSlashDirectorySeparatorConstant)) return string.Empty;
-
-            /*Find the last instance of the directory sperator constant (//)
-              and return everything that came before it.*/
-            var directoryPos = filepath.LastIndexOf(ForwardSlashDirectorySeparatorConstant);
-            return filepath.Substring(0, directoryPos);
+            if (filepath.Contains(ForwardSlashDirectorySeparatorConstant))
+            {
+                /*Find the last instance of the directory sperator constant (//)
+                   and return everything that came before it.*/
+                directoryPos = filepath.LastIndexOf(ForwardSlashDirectorySeparatorConstant);
+                return filepath.Substring(0, directoryPos);
+            }
+            
+            if(filepath.Contains(BackSlashDirectorySeparatorConstant))
+            {
+                /*Find the last instance of the directory sperator constant (\\)
+                   and return everything that came before it.*/
+                directoryPos = filepath.LastIndexOf(BackSlashDirectorySeparatorConstant);
+                return filepath.Substring(0, directoryPos);
+            }
+            
+            return string.Empty;
         }
 
         #endregion
