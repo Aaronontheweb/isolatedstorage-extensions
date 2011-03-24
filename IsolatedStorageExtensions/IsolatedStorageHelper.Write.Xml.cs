@@ -32,6 +32,7 @@ namespace IsolatedStorageExtensions
             using (var stream = new IsolatedStorageFileStream(filepath, FileMode.CreateNew, FileAccess.Write, storage))
             {
                 serializer.Serialize(stream, data);
+                stream.Close();
             }
         }
 

@@ -65,15 +65,15 @@ namespace IsolatedStorageExtensions.Tests
         [TestMethod]
         public void DeserializeObjectFromXml()
         {
-            if (!IsolatedStorageHelper.FileExists(object1FilePath))
+            if (!IsolatedStorageHelper.FileExists(object2FilePath))
             {
                 //Serialize the file to disk if it doesn't exist already
-                IsolatedStorageHelper.MakeFile<DuckObject>(Object1, object1FilePath, _serializer);
+                IsolatedStorageHelper.MakeFile<DuckObject>(Object2, object2FilePath, _serializer);
             }
 
-            var resultantObject = IsolatedStorageHelper.ReadFile<DuckObject>(object1FilePath, _serializer);
+            var resultantObject = IsolatedStorageHelper.ReadFile<DuckObject>(object2FilePath, _serializer);
 
-            Assert.IsTrue(Object1.Equals(resultantObject));
+            Assert.IsTrue(Object2.Equals(resultantObject));
 
         }
 

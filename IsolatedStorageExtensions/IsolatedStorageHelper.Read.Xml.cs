@@ -31,7 +31,11 @@ namespace IsolatedStorageExtensions
                 var stream = ReadFileStream(filepath, storage);
                 using (var reader = XmlReader.Create(stream))
                 {
-                    return (T)serializer.Deserialize(reader);
+                    var result = (T)serializer.Deserialize(reader);
+                    reader.Close();
+                    stream.Close();
+
+                    return result;
                 }
             }
 

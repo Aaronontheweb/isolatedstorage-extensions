@@ -28,6 +28,7 @@ namespace IsolatedStorageExtensions
             using (var filestream = new IsolatedStorageFileStream(filepath, FileMode.Create, FileAccess.Write, storage))
             {
                 filestream.Write(data, 0, data.Count());
+                filestream.Close();
             }
         }
 
