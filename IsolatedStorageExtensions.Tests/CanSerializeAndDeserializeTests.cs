@@ -11,6 +11,7 @@ using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Shapes;
 using System.Xml.Serialization;
+using IsolatedStorageExtensions.Tests.Models;
 using IsolatedStorageExtensions.Tests.Utils;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -47,37 +48,24 @@ namespace IsolatedStorageExtensions.Tests
         [TestMethod]
         public void SerializeObjectToXml()
         {
-            try
+            // Delete the file if it exists already
+            if (IsolatedStorageHelper.FileExists(object1FilePath))
             {
-                using(var storage = IsolatedStorageFile.GetUserStoreForApplication())
-                {
-                    IsolatedStorageHelper.CreateDirectoryTree(object1FilePath);
-
-                    using(var stream = new IsolatedStorageFileStream(object1FilePath, FileMode.Create, FileAccess.Write, storage))
-                    {
-                        _serializer.Serialize(stream, Object1);
-
-                        Assert.IsTrue(stream.Length > 0);
-                    }
-                }
-  
-
-                ////Serialize the file to disk
-                //IsolatedStorageHelper.MakeFile(Object1, object1FilePath, _serializer);
-
-                ////Verify that we created the file
-                //Assert.IsTrue(IsolatedStorageHelper.FileExists(object1FilePath));
+                IsolatedStorageHelper.DeleteFile(object1FilePath);
             }
-            catch(Exception ex)
-            {
-                var debugEx = ex;
-            }
+
+            //Serialize the file to disk
+            IsolatedStorageHelper.MakeFile(Object1, object1FilePath, _serializer);
+
+            //Verify that we created the file
+            Assert.IsTrue(IsolatedStorageHelper.FileExists(object1FilePath));
+
         }
 
         [TestMethod]
         public void DeserializeObjectFromXml()
         {
-            if(!IsolatedStorageHelper.FileExists(object1FilePath))
+            if (!IsolatedStorageHelper.FileExists(object1FilePath))
             {
                 //Serialize the file to disk if it doesn't exist already
                 IsolatedStorageHelper.MakeFile<DuckObject>(Object1, object1FilePath, _serializer);
@@ -89,22 +77,11 @@ namespace IsolatedStorageExtensions.Tests
 
         }
 
-        /// <summary>
-        /// Internal class to be used as a guinea pig for serialization tests
-        /// </summary>
-        public class DuckObject : IEquatable<DuckObject>
+        [ClassCleanup]
+        public void CleanUp()
         {
-            public string Var1 { get; set; }
-            public string Var2 { get; set; }
-
-            #region Implementation of IEquatable<DuckObject>
-
-            public bool Equals(DuckObject other)
-            {
-                return Var1.Equals(other.Var1) && Var2.Equals(other.Var2);
-            }
-
-            #endregion
+            IsolatedStorageHelper.DeleteFile(object1FilePath);
+            IsolatedStorageHelper.DeleteFile(object2FilePath);
         }
     }
 }

@@ -25,6 +25,28 @@ namespace IsolatedStorageExtensions
             return IsolatedStorageFile.GetUserStoreForApplication();
         }
 
+        /// <summary>
+        /// Internal factory method for creating an accessor to the application's settings collection
+        /// </summary>
+        /// <returns>An IsolatedStorageSettings object geared towards a specific application</returns>
+        private static IsolatedStorageSettings GetApplicationSettings()
+        {
+            return IsolatedStorageSettings.ApplicationSettings;
+        }
+
+#if !WINDOWS_PHONE
+
+        /// <summary>
+        /// Internal factory method for creating an accessor to the site's settings collection
+        /// </summary>
+        /// <returns>An IsolatedStorageSettings object geared towards a specific website where a Silverlight application is running</returns>
+        private static IsolatedStorageSettings GetSiteSettings()
+        {
+            return IsolatedStorageSettings.SiteSettings;
+        }
+
+#endif
+
         #endregion
 
         #region Filenaming Methods

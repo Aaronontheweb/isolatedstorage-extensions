@@ -64,6 +64,9 @@
     <Compile Include="..\IsolatedStorageExtensions\IsolatedStorageHelper.Read.Xml.cs">
       <Link>IsolatedStorageHelper.Read.Xml.cs</Link>
     </Compile>
+    <Compile Include="..\IsolatedStorageExtensions\IsolatedStorageHelper.Settings.cs">
+      <Link>IsolatedStorageHelper.Settings.cs</Link>
+    </Compile>
     <Compile Include="..\IsolatedStorageExtensions\IsolatedStorageHelper.Util.cs">
       <Link>IsolatedStorageHelper.Util.cs</Link>
     </Compile>
