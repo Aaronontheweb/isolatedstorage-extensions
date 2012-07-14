@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<package>
+  <metadata>
+    <id>isolatedstorage-extensions</id>
+    <version>0.1</version>
+    <authors>Aaron Stannard</authors>
+    <owners>Aaron Stannard</owners>
+    <description>Simplifies Isolated Storage access for Windows Phone 7 and Silverlight 4+</description>
+    <language>en-US</language>
+    <projectUrl>https://github.com/Aaronontheweb/isolatedstorage-extensions</projectUrl>
+    <licenseUrl>https://github.com/Aaronontheweb/isolatedstorage-extensions/blob/master/LICENSE.txt</licenseUrl>
+    <tags>silverlight isolatedstorage wp7 isolated storage fileIO files</tags>
+  </metadata>
+</package>

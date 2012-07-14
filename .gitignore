@@ -10,3 +10,6 @@ Thumbs.db
 _ReSharper*.*/
 TestResults*/
 *.user
+
+#Nuget-specific
+Download/
